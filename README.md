@@ -15,6 +15,7 @@ You can download and install Java from [this link](https://www.oracle.com/java/t
 2. Run the following command to check if Java is installed:
 ```bash
 java -version
+```bash
 
 ### 2. Download and Set Up the Project
 
