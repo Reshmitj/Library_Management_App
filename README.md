@@ -54,7 +54,7 @@ mvn install
 * Log in using your registered credentials.
 * **Admin Login Credentials:**
     * Username: `admin@library.com`
-    * Password: `adminpass15`
+    * Password: `adminpass1`
 
 ### 5. Features
 
