@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Manage Books</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="/admin/dashboard">Library Management System - Admin Panel</a>
+    </div>
+
+    <div class="admin-dashboard">
+        <div class="table-container">
+            <h2>📚 Manage Books</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Category</th>
+                        <th>Available</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="book : ${books}">
+                        <td th:text="${book.title}"></td>
+                        <td th:text="${book.author}"></td>
+                        <td th:text="${book.category}"></td>
+                        <td th:text="${book.available} ? 'Yes' : 'No'"></td>
+                        <td class="action-buttons">
+                            <a th:href="@{/admin/update-book/{id}(id=${book.id})}" class="action-btn edit-btn">✏ Edit</a>
+                            <form th:action="@{/admin/delete-book/{id}(id=${book.id})}" method="post" style="display:inline;">
+                                <button type="submit" class="action-btn delete-btn">🗑 Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <a href="/admin/dashboard" class="back-btn">⬅ Back</a>
+        </div>
+    </div>
+
+</body>
+</html>

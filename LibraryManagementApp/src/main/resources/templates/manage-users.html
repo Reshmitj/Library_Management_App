@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Manage Users</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="/admin/dashboard">Library Management System - Admin Panel</a>
+    </div>
+
+    <div class="admin-dashboard">
+        <div class="table-container">
+            <h2>👥 Manage Users</h2>
+
+            <!-- Button to Create New User -->
+            <a href="/user/add-user" class="action-btn add-btn">➕ Add User</a>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="user : ${users}">
+                        <td th:text="${user.name}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td th:text="${user.password}"></td>
+                        <td class="action-buttons">
+                            <a th:href="@{/admin/edit-user/{id}(id=${user.id})}" class="action-btn edit-btn">✏ Edit</a>
+                            <form th:action="@{/admin/delete-user/{id}(id=${user.id})}" method="post" style="display:inline;">
+                                <button type="submit" class="action-btn delete-btn">🗑 Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <a href="/admin/dashboard" class="back-btn">⬅ Back</a>
+        </div>
+    </div>
+
+</body>
+</html>

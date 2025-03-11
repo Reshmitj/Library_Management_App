@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Search Books</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/home">Library Management System</a>
+    </div>
+	<div class="container">
+	       <h2>Search for Books</h2>
+	<!-- Navigation Menu for User -->
+    <div class="main-menu">
+        <a href="/home" class="action-btn">Home</a>
+        <a href="/search-books" class="action-btn">Search Books</a>
+        <a href="/borrow-books" class="action-btn">Borrow Books</a>
+        <a href="/return-books" class="action-btn">Return Books</a>
+        <a href="/logout" class="action-btn">Logout</a>
+    </div>
+
+    <div class="container">
+        <h2>Search for Books</h2>
+
+        <!-- Search Form -->
+        <div class="search-form">
+            <input type="text" id="searchQuery" placeholder="Search by title, author, or category" />
+            <button id="searchBtn">Search</button>
+        </div>
+
+        <!-- Search Results Section -->
+        <div id="searchResults"></div>
+    </div>
+	
+
+    <script>
+        $(document).ready(function() {
+            $('#searchBtn').click(function() {
+                var query = $('#searchQuery').val().trim();
+                if (query) {
+                    // Perform an AJAX request to the backend to fetch search results
+                    $.ajax({
+                        url: '/search-books', // Backend URL to handle the search request
+                        method: 'GET',
+                        data: { query: query }, // Pass the search query
+                        success: function(response) {
+                            $('#searchResults').html(response); // Display the search results dynamically
+                        },
+                        error: function() {
+                            $('#searchResults').html('<p style="color: red;">Error searching for books.</p>');
+                        }
+                    });
+                } else {
+                    // Display a message if the query is empty
+                    $('#searchResults').html('<p style="color: red;">Please enter a search term.</p>');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
