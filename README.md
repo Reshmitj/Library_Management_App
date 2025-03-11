@@ -38,6 +38,7 @@ Follow these steps to set up and run the application:
 ```bash
 mvn clean
 mvn install
+```
 
 ### From IDE (Spring Tool Suite - STS):
 
