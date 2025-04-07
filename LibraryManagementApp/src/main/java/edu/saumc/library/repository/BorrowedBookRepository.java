@@ -10,11 +10,7 @@ import edu.saumc.library.entity.BorrowedBook;
 
 @Repository
 public interface BorrowedBookRepository extends JpaRepository<BorrowedBook, Long> {
-
-    // Find BorrowedBook by Book ID (useful for returning a book)
     Optional<BorrowedBook> findByBookId(Long bookId);
-
-    // Find BorrowedBooks by User's Email (useful for listing borrowed books for a user)
     List<BorrowedBook> findByUserEmail(String email);
-
+    List<BorrowedBook> findByExtensionRequestedTrue();
 }

@@ -1,14 +1,11 @@
 package edu.saumc.library.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import edu.saumc.library.entity.Book;
 import edu.saumc.library.entity.BorrowedBook;
@@ -22,12 +19,12 @@ import edu.saumc.library.service.UserService;
 public class AdminController {
 
     private final BookService bookService;
-    private final BorrowService borrowedBookService;
+    private final BorrowService borrowService;
     private final UserService userService;
 
-    public AdminController(BookService bookService, BorrowService borrowedBookService, UserService userService) {
+    public AdminController(BookService bookService, BorrowService borrowService, UserService userService) {
         this.bookService = bookService;
-        this.borrowedBookService = borrowedBookService;
+        this.borrowService = borrowService;
         this.userService = userService;
     }
 
@@ -40,7 +37,7 @@ public class AdminController {
     @GetMapping("/manage-books")
     public String manageBooks(Model model) {
         model.addAttribute("books", bookService.getAllBooks());
-        return "manage-books"; 
+        return "manage-books";
     }
 
     @GetMapping("/add-book")
@@ -102,12 +99,11 @@ public class AdminController {
         return "redirect:/admin/manage-books";
     }
 
-
     @GetMapping("/view-borrowed-books")
     public String viewBorrowedBooks(Model model) {
-        List<BorrowedBook> borrowedBooks = borrowedBookService.getAllBorrowedBooks();
+        List<BorrowedBook> borrowedBooks = borrowService.getAllBorrowedBooks();
         model.addAttribute("borrowedBooks", borrowedBooks);
-        return "view-borrowed-books";  
+        return "view-borrowed-books";
     }
 
     @GetMapping("/manage-users")
@@ -116,7 +112,7 @@ public class AdminController {
         model.addAttribute("users", users);
         return "manage-users";
     }
-    
+
     @GetMapping("/edit-user/{id}")
     public String editUserForm(@PathVariable Long id, Model model) {
         User user = userService.getUserById(id);
@@ -136,4 +132,18 @@ public class AdminController {
         return "redirect:/admin/manage-users";
     }
 
+    @GetMapping("/loan-extensions")
+    public String showLoanExtensionRequests(Model model) {
+        List<BorrowedBook> extensionRequests = borrowService.getPendingExtensionRequests();
+        model.addAttribute("extensionRequests", extensionRequests);
+        return "loan-extensions";
+    }
+
+    @PostMapping("/approve-extension")
+    public String approveExtension(@RequestParam Long borrowId,
+                                   @RequestParam("newDueDate") String newDueDateStr) {
+        LocalDateTime newDueDate = LocalDateTime.parse(newDueDateStr + "T00:00:00");
+        borrowService.approveExtension(borrowId, newDueDate);
+        return "redirect:/admin/loan-extensions";
+    }
 }

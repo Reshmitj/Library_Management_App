@@ -26,54 +26,33 @@ public class BorrowedBook {
     @Column(name = "due_date", nullable = false)
     private LocalDateTime dueDate;
 
+    @Column(name = "extension_requested")
+    private boolean extensionRequested = false;
+
     public BorrowedBook() {}
 
-    // Correct constructor to match the service method
     public BorrowedBook(User user, Book book) {
         this.user = user;
         this.book = book;
         this.borrowedDate = LocalDateTime.now();
-        this.dueDate = borrowedDate.plusWeeks(2); // Default 2-week loan period
+        this.dueDate = borrowedDate.plusWeeks(2);
     }
 
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
 
-    public User getUser() {
-        return user;
-    }
+    public Book getBook() { return book; }
+    public void setBook(Book book) { this.book = book; }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+    public LocalDateTime getBorrowedDate() { return borrowedDate; }
+    public void setBorrowedDate(LocalDateTime borrowedDate) { this.borrowedDate = borrowedDate; }
 
-    public Book getBook() {
-        return book;
-    }
+    public LocalDateTime getDueDate() { return dueDate; }
+    public void setDueDate(LocalDateTime dueDate) { this.dueDate = dueDate; }
 
-    public void setBook(Book book) {
-        this.book = book;
-    }
-
-    public LocalDateTime getBorrowedDate() {
-        return borrowedDate;
-    }
-
-    public void setBorrowedDate(LocalDateTime borrowedDate) {
-        this.borrowedDate = borrowedDate;
-    }
-
-    public LocalDateTime getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(LocalDateTime dueDate) {
-        this.dueDate = dueDate;
-    }
+    public boolean isExtensionRequested() { return extensionRequested; }
+    public void setExtensionRequested(boolean extensionRequested) { this.extensionRequested = extensionRequested; }
 }
