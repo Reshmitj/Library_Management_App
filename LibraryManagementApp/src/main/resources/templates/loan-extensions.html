@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Approve Loan Extensions</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="navbar">
+        <a href="/admin/dashboard">Library Management System - Admin Panel</a>
+    </div>
+
+    <div class="container">
+        <h2 class="center">Pending Loan Extension Requests</h2>
+
+        <div class="form-container">
+            <!-- Success or Error Message -->
+            <p th:if="${successMessage}" class="success-msg" th:text="${successMessage}"></p>
+            <p th:if="${errorMessage}" class="error-msg" th:text="${errorMessage}"></p>
+
+            <!-- No requests available -->
+            <h3 th:if="${#lists.isEmpty(extensionRequests)}" style="color: red;">No pending extension requests.</h3>
+
+            <!-- Extension Requests Table -->
+            <div th:if="${not #lists.isEmpty(extensionRequests)}">
+                <table class="table-container">
+                    <thead>
+                        <tr>
+                            <th>Book</th>
+                            <th>User</th>
+                            <th>Current Due Date</th>
+                            <th>New Due Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+						<tr th:each="request : ${extensionRequests}">
+						    <td th:text="${request.book.title}"></td>
+						    <td th:text="${request.user.name}"></td>
+						    <td th:text="${#temporals.format(request.dueDate, 'yyyy-MM-dd')}"></td>
+						    
+						    <td colspan="2">
+						        <form method="post" action="/admin/approve-extension" class="inline-form">
+						            <input type="date" name="newDueDate" required />
+						            <input type="hidden" name="borrowId" th:value="${request.id}" />
+						            <button type="submit" class="action-btn">Approve</button>
+						        </form>
+						    </td>
+						</tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Back Button -->
+            <a href="/admin/dashboard" class="back-btn">Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

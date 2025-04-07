@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Return Books</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="navbar">
+        <a href="/home">Library Management System</a>
+    </div>
+
+    <div class="container">
+        <h2>Return Books</h2>
+
+        <!-- Navigation Menu for User -->
+        <div class="main-menu">
+            <a href="/home" class="action-btn">Home</a>
+            <a href="/borrow-books" class="action-btn">Borrow Books</a>
+            <a href="/return-books" class="action-btn">Return Books</a>
+            <a href="/logout" class="action-btn logout-btn">Logout</a>
+        </div>
+
+        <!-- Display Success or Error Message -->
+        <p th:if="${successMessage}" class="success-msg" th:text="${successMessage}"></p>
+        <p th:if="${errorMessage}" class="error-msg" th:text="${errorMessage}"></p>
+
+        <!-- Display Borrowed Books -->
+        <h3 class="centered-heading">Your Borrowed Books</h3>
+
+        <!-- Table for displaying books -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Borrow Date</th>
+                        <th>Return Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="borrowedBook : ${borrowedBooks}">
+                        <td th:text="${borrowedBook.book.title}"></td>
+                        <td th:text="${borrowedBook.book.author}"></td>
+                        <td th:text="${borrowedBook.borrowedDate}"></td>
+                        <td th:text="${borrowedBook.dueDate}"></td>
+                        <td>
+                            <!-- Return Book Form -->
+                            <form action="/return-books/return" method="post" style="display:inline;">
+                                <input type="hidden" name="bookId" th:value="${borrowedBook.book.id}">
+                                <button type="submit" class="return-btn">Return</button>
+                            </form>
+
+                            <!-- Extend Loan Form -->
+                            <form action="/extend-loan" method="post" style="display:inline; margin-left: 10px;">
+                                <input type="hidden" name="bookId" th:value="${borrowedBook.book.id}">
+                                <button type="submit" class="extend-btn">Extend Loan</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- If no borrowed books available -->
+            <p th:if="${#lists.isEmpty(borrowedBooks)}" style="color: red;">No borrowed books to return.</p>
+        </div>
+
+        <a href="/home"><button>Back</button></a>
+    </div>
+</body>
+</html>
