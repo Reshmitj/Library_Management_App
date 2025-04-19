@@ -39,7 +39,7 @@ Follow these steps to set up and run the application:
 mvn clean
 mvn install
 ```
-
+OR
 ### From IDE (Spring Tool Suite - STS):
 
 * Open the Spring Boot Perspective in STS.
